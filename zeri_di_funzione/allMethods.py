@@ -113,7 +113,7 @@ def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
             x0 = x1
             if abs(fpname(x0)) <= np.spacing(1):
                 print("Derivata nulla in x0")
-                return xk[it], it, xk
+                return x1, it, xk
             d = (fname(x0)/ fpname(x0))
             x1 = x0 - d
             xk.append(x1)
@@ -123,31 +123,30 @@ def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
             print("Numero massimo di iterazioni raggiunto")
         return x1, it, xk
 
-def newtonModificato(func, dfunc, x0, tolx, tolf, nMax, m):
-    it = 0
+def newtonModificato(fname, fpname, x0, tolx, tolf, nMaxIt, m):
     xk = []
-    # Controllo Derivata
-    if abs(dfunc(x0)) < np.spacing(1):
-        print("Derivata nulla")
+    it = 0
+    if abs(fpname(x0)) <= np.spacing(1):
+        print("Derivata nulla in x0")
         return [], 0, []
-    # xi = xim1 - d
-    d = func(x0)/dfunc(x0)
-    x1 = x0 - (d*m)
-    xk.append(x1)
-    it += 1
-    while it < nMax and abs(func(x1)) >= tolf and abs(d) >= tolx * abs(x1):
-        x0 = x1
-        # Controllo Derivata
-        if abs(dfunc(x0)) < np.spacing(1):
-            print("Derivata nulla")
-            return x0, it, xk
-        d = func(x0)/dfunc(x0)
-        x1 = x0 - (d*m)
+    else:
+        d = (fname(x0)/ fpname(x0))
+        x1 = x0 - d*m
         xk.append(x1)
         it += 1
-        if it == nMax:
-            print("Raggiunto nMax iterazioni")
-    return x1, it, xk
+        while it < nMaxIt and abs(fname(x1)) >= tolf and abs(d) >= tolx * abs(x1):
+            x0 = x1
+            if abs(fpname(x0)) <= np.spacing(1):
+                print("Derivata nulla in x0")
+                return x1, it, xk
+            d = (fname(x0)/ fpname(x0))
+            x1 = x0 - d*m
+            xk.append(x1)
+            it += 1
+            
+        if it == nMaxIt:
+            print("Numero massimo di iterazioni raggiunto")
+        return x1, it, xk
 
 def stimaOrdine(xks, num_iterazioni):
     k = num_iterazioni - 3

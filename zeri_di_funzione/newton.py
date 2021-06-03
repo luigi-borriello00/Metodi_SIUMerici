@@ -27,7 +27,7 @@ def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
             x0 = x1
             if abs(fpname(x0)) <= np.spacing(1):
                 print("Derivata nulla in x0")
-                return xk[it], it, xk
+                return x1, it, xk
             d = (fname(x0)/ fpname(x0))
             x1 = x0 - d
             xk.append(x1)
