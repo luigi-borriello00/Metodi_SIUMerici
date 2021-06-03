@@ -21,14 +21,17 @@ def regula_falsi(fname, a, b, tol, nMax):
         xks = []
         it = 0
         eps = np.spacing(1)
-        while it < nMax and abs(b-a) >= tol + eps * max(abs(a), abs(b)) and fname(xks[it]) >= tol:
+        fk = fname(a)
+        while it < nMax and abs(b-a) >= tol + eps * max(abs(a), abs(b)) and abs(fk) >= tol:
             # Calcolo il nuovo punto Xk
-            xks.append(a - fname(a) * ((b - a)/(fname(b) - fname(a))))
-            if math.copysign(1, xks[it]) == math.copysign(1,a):
+            xk = a - fname(a) * ((b - a)/(fname(b) - fname(a)))
+            xks.append(xk)
+            fk = fname(xk)
+            if sign(xks[it]) == sign(a):
                 a = xks[it]
-            elif math.copysign(1, xks[it]) == math.copysign(1,b):
+            elif sign(xks[it]) == sign(b):
                 b = xks[it]
             elif fname(xks[it]) == 0:
                 break;
             it += 1
-        return xks[it], it+1, xks
+        return xk, it+1, xks

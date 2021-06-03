@@ -25,3 +25,4 @@ def secanti(fname, x0, xm1, tolx, tolf, nMaxIt):
         if it == nMaxIt:
             print("Numero massimo it raggiunte ")
             return xk[it-1], it, xk
+    return xk[it-1], it, xk

@@ -19,6 +19,7 @@ def corde(fname, fpname, x0, tolx, tolf, nMaxIt ):
     it += 1
     while it < nMaxIt and abs(fname(x1)) >= tolf and abs(x1-x0) >= tolx * abs(x1):
         x0 = x1
+        d = fname(x0) / m
         x1 = x0-d
         xks.append(x1)
         it += 1

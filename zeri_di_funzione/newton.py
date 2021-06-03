@@ -15,7 +15,7 @@ import numpy as np
 def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
     xk = []
     it = 0
-    if fpname(x0) <= np.spacing(1):
+    if abs(fpname(x0)) <= np.spacing(1):
         print("Derivata nulla in x0")
         return [], 0, []
     else:
@@ -25,10 +25,10 @@ def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
         it += 1
         while it < nMaxIt and fname(x1) >= tolf and abs(d) >= tolx * abs(x1):
             x0 = x1
-            if fpname(x0) <= np.spacing(1):
+            if abs(fpname(x0)) <= np.spacing(1):
                 print("Derivata nulla in x0")
                 return xk[it], it, xk
-            d = x0 - (fname(x0)/ fpname(x0))
+            d = (fname(x0)/ fpname(x0))
             x1 = x0 - d
             xk.append(x1)
             it += 1

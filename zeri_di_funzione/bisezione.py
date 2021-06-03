@@ -12,11 +12,13 @@ Controllo su:
 import numpy as np
 import math
 
-def sign(x) : math.copysign(1, x)
+def sign(x) : return math.copysign(1, x)
 
 def bisezione(fname, a, b, tol):
-    if sign(fname(a)) == sign(fname(b)):
-        print("Metodo non iterabile ciacia")
+    fa=fname(a)
+    fb=fname(b)
+    if sign(fa)==sign(fb):
+        print("Metodo non iterabile ciacia ")
         return [], 0, []
     
     else:
@@ -28,15 +30,16 @@ def bisezione(fname, a, b, tol):
         nMax = int(math.ceil(3.3 * math.log10((b-a)/tol)))
         while it < nMax and abs(b-a) >= tol + eps * max(abs(a), abs(b)):
             # Calcolo il k esimo X
-            xks.append(a + ((b-a)/2))
-            if(math.copysign(1, xks[it]) == math.copysign(1, a)):
+            xk = a + ((b-a)/2)
+            xks.append(xk)
+            if(sign(xks[it]) == sign(a)):
                 a = xks[it]
-            elif(math.copysign(1, xks[it]) == math.copysign(1, b)):
+            elif(sign(xks[it]) == sign(b)):
                 b = xks[it]
             # Ho trovato lo Zero
             elif(fname(xks[it]) == 0):
                 break;
             it += 1
         
-        return xks[it], it+1, xks
+        return xk, it+1, xks
     
