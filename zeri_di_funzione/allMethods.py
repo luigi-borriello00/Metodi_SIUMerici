@@ -21,19 +21,20 @@ def bisezione(fname, a, b, tol):
         it = 0
         # Numero massimo di iterazioni
         nMax = int(math.ceil(3.3 * math.log10((b-a)/tol)))
+        print(f"N passi necessari {nMax}")
         while it < nMax and abs(b-a) >= tol + eps * max(abs(a), abs(b)):
             # Calcolo il k esimo X
             xk = a + ((b-a)/2)
             xks.append(xk)
-            if(sign(xks[it]) == sign(a)):
-                a = xks[it]
-            elif(sign(xks[it]) == sign(b)):
-                b = xks[it]
-            # Ho trovato lo Zero
-            elif(fname(xks[it]) == 0):
-                break;
             it += 1
-        return xk, it+1, xks
+            if(sign(fname(xk)) == sign(fname(a))):
+                a = xk
+            elif(sign(fname(xk)) == sign(fname(b))):
+                b = xk
+            # Ho trovato lo Zero
+            elif(fname(xk) == 0):
+                break;
+        return xk, it, xks
 
 def regula_falsi(fname, a, b, tol, nMax):
     # A e B devono avere segni discordi
@@ -108,7 +109,7 @@ def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
         x1 = x0 - d
         xk.append(x1)
         it += 1
-        while it < nMaxIt and fname(x1) >= tolf and abs(d) >= tolx * abs(x1):
+        while it < nMaxIt and abs(fname(x1)) >= tolf and abs(d) >= tolx * abs(x1):
             x0 = x1
             if abs(fpname(x0)) <= np.spacing(1):
                 print("Derivata nulla in x0")
@@ -117,9 +118,10 @@ def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
             x1 = x0 - d
             xk.append(x1)
             it += 1
-            if it == nMaxIt:
-                print("Numero massimo di iterazioni raggiunto")
-        return xk[it-1], it, xk
+            
+        if it == nMaxIt:
+            print("Numero massimo di iterazioni raggiunto")
+        return x1, it, xk
 
 def newtonModificato(func, dfunc, x0, tolx, tolf, nMax, m):
     it = 0

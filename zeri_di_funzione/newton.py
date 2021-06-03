@@ -23,7 +23,7 @@ def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
         x1 = x0 - d
         xk.append(x1)
         it += 1
-        while it < nMaxIt and fname(x1) >= tolf and abs(d) >= tolx * abs(x1):
+        while it < nMaxIt and abs(fname(x1)) >= tolf and abs(d) >= tolx * abs(x1):
             x0 = x1
             if abs(fpname(x0)) <= np.spacing(1):
                 print("Derivata nulla in x0")
@@ -32,6 +32,7 @@ def newton(fname, fpname, x0, tolx, tolf, nMaxIt):
             x1 = x0 - d
             xk.append(x1)
             it += 1
-            if it == nMaxIt:
-                print("Numero massimo di iterazioni raggiunto")
-        return xk[it-1], it, xk
+            
+        if it == nMaxIt:
+            print("Numero massimo di iterazioni raggiunto")
+        return x1, it, xk
