@@ -2,6 +2,8 @@
 """
 Es 7
 
+QR piu stabile
+R è maggiorata dalla radice di n + max di aij
 """
 import numpy as np
 import numpy.linalg as npl
@@ -38,6 +40,7 @@ for i in range(4,41,6):
     y = np.dot(Q.T, b)
     x, flag = fz.Usolve(R, y)
     errRelHou.append(npl.norm(xn-x, 2) / npl.norm(xn,2))
+
 plt.plot(indCond, errRelPiv, "r", indCond, errRelHou, "b")
 plt.legend(["Pivot", "QR"])
 plt.xlabel("Indice di Condizionamento")
