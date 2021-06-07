@@ -5,42 +5,27 @@ A triangolare sup
 """
 import numpy as np
 
-def uSolve(A, b):
-    m,n = A.shape
-    if m != n:
-        print("Matrice non quadrata")
-        return []
-    if np.all(np.diag(A)) != True:
-         print('el. diag. nullo - matrice triangolare inferiore')
-         x=[]
-         return []
-    x = np.zeros((m, 1))
-    x[m-1] = b[m-1] / A[m-1, m-1]
-    for i in range(m-1, -1, -1):
-        somma = 0
-        for j in range(i):
-            somma += np.dot(A[i,j], x[j])
-        x[i] = (b[i] - somma) / A[i,i]
-    return x
-    
-    
-def lSolve(A, b):
-    m,n = A.shape
-    if m != n:
-        print("Matrice non quadrata")
-        return []
-    if np.all(np.diag(A)) != True:
-         print('el. diag. nullo - matrice triangolare inferiore')
-         x=[]
-         return []
-    x = np.zeros((m, 1))
-    x[0] = b[0] / A[0,0]
-    for i in range(1, m):
-        somma = 0
-        for j in range(i+1, m, 1):
-            somma += np.dot(A[i,j], x[j])
-        x[i] = (b[i] - somma) / A[i,i]
-    return x
+def Usolve(U, b):
+    m,n = U.shape
+    x = np.zeros((m,1))
+    if m != n or np.all(np.diag(U)) != True:
+        print("Matrice non risolvibile")
+        return [], 1
+    for k in reversed(range(n)):
+        x[k] = (b[k] - np.dot(U[k, k+1:n], x[k+1:n])) / U[k,k]
+    return x, 0
+
+def Lsolve(L,b):
+    m,n = L.shape
+    if m != n or np.all(np.diag(L)) != True:
+        print("Matrice non risolvibile")
+        return [], 1
+    x = np.zeros((n, 1))
+    for k in range(n):
+        x[k] = (b[k] - np.dot(L[k, 0:k], x[0:k])) / L[k,k]
+    return x, 0
+
+
 
 """
     ESERCIZIO 3
@@ -55,29 +40,35 @@ def lSolve(A, b):
 def LUsolve(P, L, U, b):
     # Risultati Permutati
     Pb = np.dot(P,b)
-    y = lSolve(L, Pb)
-    x = uSolve(U, y)
+    y = Lsolve(L, Pb)
+    x = Usolve(U, y)
     return x
 
 """ ESERCIZIO 4 """
-def LUsolveNoPivot(A):
-    m, n = A.shape
+
+def LUnoPivot(A):
+    m,n = A.shape
     if m != n:
         print("Matrice non quadrata")
-        return [],[]
-    L = np.identity(m)
+        return [],[],[], 1
+    if np.all(np.diag(A)) != True:
+        print("Elemento diagonale nullo")
+        return [], [], [], 1
     U = A.copy()
-    for k in range(n):
+    for k in range(n-1):
         if U[k,k] == 0:
-            print("Pivot nullo")
-            return [],[]
-        for i in range(k+1, n, 1):
-            m = U[i,k] / U[k,k]
-            L[i,k] = -m
-            for j in range(k+1, n, 1):
-                U[i,j] = U[i,j] - m * U[k,j]
-    return L,U
-    
+            print("Elemento diagonale nullo")
+            return [], [], [], 1
+        for i in range(k+1, n-1):
+            U[k,i] = U[k,i] / U[k,k]
+            for j in range(k+1, n-1):
+                U[i,j] = U[i,j] - np.dot(U[i,k], U[k,j])
+    L = np.ltril(U,-1) + np.identity(m)
+    U = np.utril(U)
+    P = np.identity(m)
+    return P,L,U,0
+
+
 def LUsolveNoPivotVett(A):
     m, n = A.shape
     if m != n:

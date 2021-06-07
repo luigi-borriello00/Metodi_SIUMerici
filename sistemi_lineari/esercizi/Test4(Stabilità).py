@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 
-Essendo E un moltiplicatore, quando diventa molto piccolo tende a far schizzare l'errore relativo
+Essendo E il divisore dei moltiplicatori, quando diventa molto piccolo tende a far schizzare l'errore relativo
 commesso, per questo si utilizza la tecnica di Pivoting
 
 """
