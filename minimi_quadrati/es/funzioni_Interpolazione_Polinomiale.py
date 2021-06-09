@@ -26,7 +26,7 @@ def plagr(xnodi,k):
 
 
 
-def InterpL(x, f, xx):
+def interpL(x, f, xx):
      """"
         %funzione che determina in un insieme di punti il valore del polinomio
         %interpolante ottenuto dalla formula di Lagrange.
