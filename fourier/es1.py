@@ -17,10 +17,10 @@ import matplotlib.pyplot as plt
 sceltaf = input("Scegli funzione ")
  
 scelta_funzione = {
-        '1': [lambda x: np.sin(x) - 2 * np.sin(2 * x), -math.pi, math.pi],
-        '2': [lambda x: np.sinh(x), -2, 2],
-        '3': [lambda x: np.abs(x), -1, 1],
-        '4': [lambda x: 1 / (1 + x ** 2), -5, 5]
+        '1': [lambda x : np.sin(x) - 2 * np.sin(2 * x), -math.pi, math.pi],
+        '2': [lambda x : np.sinh(x), -2, 2],
+        '3': [lambda x : np.abs(x), -1, 1],
+        '4': [lambda x : 1 / (1 + x ** 2), -5, 5]
 }
 
 f, A, B = scelta_funzione.get(sceltaf)
@@ -28,9 +28,9 @@ f, A, B = scelta_funzione.get(sceltaf)
 n = int(input("Introduci il valore di n "))
 step = (B-A)/(n+1)
 
-#Costruisco n+1 punti equidistanti in [A,B), (l'estremo B viene quindi escluso)
+# Costruisco n+1 punti equidistanti in [A,B), (l'estremo B viene quindi escluso)
 x = np.arange(A,B,step)
-#Mappo i punti dell'intervallo [A,B) in [l,r)  = [0,2pigreco)
+# Mappo i punti dell'intervallo [A,B) in [l,r)  = [0,2pigreco)
 l = 0
 r = 2 * math.pi
 # Settare il grado del polinomio trigonometrico "m"
@@ -46,7 +46,8 @@ y = f(x)
 c = fft(y)
 a = np.zeros((m + 2,))
 b = np.zeros((m + 2,))
-a0 = c[0]/(n + 1)
+# a0 è uguale per tutti
+a0 = c[0] / (n + 1)
 a[1 : m + 1] = 2 * c[1 : m + 1].real / (n + 1)    
 b[1 : m + 1] = -2 * c[1 : m + 1].imag / (n + 1) 
 
