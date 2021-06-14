@@ -62,13 +62,20 @@ else:
 # vettore COLONNA [a0, ..., a0]
 pol = a0 * np.ones((100, ))
 z = np.linspace(A, B, 100 )
+fz = f(z)
 # Mappo i valori nel nuovo inervallo
 zm = (z - A) * (r - l) / (B - A) + l
+r = []
 
 # Implemento la formula del polinomio trigonometrico
 for k in range(1, m + 2):
    pol = pol + a[k] * np.cos(k * zm) + b[k] * np.sin(k * zm) # Focus
-
+   r.append(fz[k] - pol[k])
 plt.plot(z,pol,'r',x  ,y ,'o',z ,f(z),'b')
+plt.legend(["Pol. Trigonometrico", "Punti di interp.", "Funzione"])
+plt.show()
+
+plt.plot(np.arange(1, m + 1), r)
+plt.legend(["Errore di interpolazione"])
 plt.show()
 
