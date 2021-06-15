@@ -10,9 +10,7 @@ import sympy as sym
 from scipy import optimize 
 import math
 
-
 # L'unico metodo a convergenza quadratica è Newton
-
 def newton(fname, fpname, x0, m,  tol, nMaxIt):
     xk = []
     it = 0
@@ -49,6 +47,7 @@ d = sym.utilities.lambdify(x, dfx, np)
 
 # Plotto la funzione per cercare le radici
 plt.plot(xx, f(xx))
+plt.title("Funzione")
 plt.show()
 
 # Noto che la funzione vicino al 2 vale 0
@@ -63,13 +62,15 @@ denO = math.log(abs(xks[-3] - xks[-2]) / abs(xks[-4] - xks[-3]))
 ordine = numO / denO
 print(f"L'ordine di convergenza del metodo è {ordine}")
 
-# Notiamo che l'ordine è vicino all'uno quindi ziopera ha molteplicità m
-
-
-plt.plot(xx, d(xx))
-plt.title("Derivata")
-plt.show()
-
 plt.semilogy(np.arange(it), xks)
 plt.title("Iterazioni")
 plt.show()
+
+"""
+    Osservazioni: il metodo di Newton inizialmente con la radice "2" aveva un ordine
+    di convergenza pari a 1, quindi la radice ha molteplicità m, provando poi ad 
+    implementare la versione modificata del metodo ho ottenuto un ordine di convergenza
+    pari a 2, utilizzando m = 2 dunque la radice ha molteplicità pari a 2
+    Inoltre il metodo non converge usando '1' come valore di innesco in quanto quest'ultimo
+    ha una derivata prossima allo 0
+"""
