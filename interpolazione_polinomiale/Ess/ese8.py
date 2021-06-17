@@ -7,7 +7,6 @@ import numpy as np
 import interpolL as fz
 import math
 
-
 def zeri_Cheb(a,b,n):
     t1=(a+b)/2
     t2=(b-a)/2

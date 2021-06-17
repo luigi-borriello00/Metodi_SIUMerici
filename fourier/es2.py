@@ -22,7 +22,6 @@ A = -3
 B = 3
 l = 0
 r = 2 * math.pi
-
 n = int(input("Introduci il valore di n "))
 step = (B - A) / (n + 1)
 y = []
